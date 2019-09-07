@@ -1,10 +1,12 @@
 ﻿
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gap.Seguros.Domain.Dto;
 using Gap.Seguros.Domain.Model;
 using Gap.Seguros.Domain.Repository;
+using Gap.Seguros.Domain.Services;
 
 namespace Gap.Seguros.API.Services
 {
@@ -13,13 +15,16 @@ namespace Gap.Seguros.API.Services
     public class GestionPolizaService : IGestionPolizaService
     {
         private readonly IPolizaRepository _polizaRepository;
+        private readonly IPolizaService _polizaService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GestionPolizaService"/> class.
         /// </summary>
         /// <param name="polizaRepository">The poliza repository.</param>
-        public GestionPolizaService(IPolizaRepository polizaRepository) {
+        /// <param name="polizaService">The poliza Service.</param>
+        public GestionPolizaService(IPolizaRepository polizaRepository, IPolizaService polizaService) {
             this._polizaRepository = polizaRepository;
+            this._polizaService = polizaService;
         }
 
         /// <summary>
@@ -39,7 +44,11 @@ namespace Gap.Seguros.API.Services
         /// <returns></returns>
         public Task<int> CrearPoliza(Poliza nuevaPoliza)
         {
-            return this._polizaRepository.CrearPoliza(nuevaPoliza);
+            if (this._polizaService.EsValidaCoberturaPoliza(nuevaPoliza))
+            {
+                return this._polizaRepository.CrearPoliza(nuevaPoliza);
+            }
+            return Task.FromResult(0);
         }
 
         /// <summary>
@@ -48,7 +57,11 @@ namespace Gap.Seguros.API.Services
         /// <param name="poliza">la poliza.</param>
         public Task<int> EditarPoliza(Poliza poliza)
         {
-            return this._polizaRepository.EditarPoliza(poliza);
+            if (this._polizaService.EsValidaCoberturaPoliza(poliza))
+            {
+                return this._polizaRepository.EditarPoliza(poliza);
+            }
+            return Task.FromResult(0);
         }
 
         /// <summary>

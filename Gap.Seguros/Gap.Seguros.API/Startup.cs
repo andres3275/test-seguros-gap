@@ -3,6 +3,7 @@ using System.IO;
 using System.Reflection;
 using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain.Repository;
+using Gap.Seguros.Domain.Services;
 using Gap.Seguros.Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,6 +33,7 @@ namespace Gap.Seguros.API
                                                              .AllowAnyHeader()));
             services.AddScoped<IGestionPolizaService, GestionPolizaService>();
             services.AddScoped<IPolizaRepository, PolizaRepository>();
+            services.AddScoped<IPolizaService, PolizaService>();
             services.AddDbContext<GapSegurosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlServerConnectionString")));
             services.AddSwaggerGen(c =>
             {
@@ -61,7 +63,6 @@ namespace Gap.Seguros.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Seguros GAP Api");
                 c.RoutePrefix = string.Empty;
             });
-
             app.UseMvc();
         }
     }

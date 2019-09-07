@@ -9,8 +9,8 @@ namespace Gap.Seguros.Domain.Model
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int TipoCubrimientoId { get; set; }
-        public decimal? Cobertura { get; set; }
         public int TipoRiesgoId { get; set; }
+        public decimal? Cobertura { get; set; }
         public DateTime? FechaInicioVigencia { get; set; }
         public int? DuracionMesesCobertura { get; set; }
         public decimal? Precio { get; set; }

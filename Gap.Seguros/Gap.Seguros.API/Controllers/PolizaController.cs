@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Net;
 using System.Threading.Tasks;
 using Gap.Seguros.API.Services;
+using Gap.Seguros.Domain;
 using Gap.Seguros.Domain.Dto;
 using Gap.Seguros.Domain.Model;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +40,7 @@ namespace Gap.Seguros.API.Controllers
         [HttpGet("consultarPolizas")]
         [ProducesResponseType(typeof(Collection<PolizaViewModel>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ConsultarPolizas()
         {
             try
@@ -53,7 +54,7 @@ namespace Gap.Seguros.API.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
             }
         }
 
@@ -67,7 +68,8 @@ namespace Gap.Seguros.API.Controllers
         [HttpPost("crearPoliza")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BusinessException), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearPoliza(Poliza nuevaPoliza)
         {
             try
@@ -77,11 +79,14 @@ namespace Gap.Seguros.API.Controllers
                 {
                     return Ok(nuevaPoliza.Id);
                 }
-                return NotFound();
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+            catch (BusinessException businessException) {
+                return BadRequest(businessException);
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
             }
         }
 
@@ -93,7 +98,7 @@ namespace Gap.Seguros.API.Controllers
         [HttpPut("editarPoliza")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EditarPoliza(Poliza poliza)
         {
             try
@@ -105,9 +110,13 @@ namespace Gap.Seguros.API.Controllers
                 }
                 return NotFound();
             }
+            catch (BusinessException businessException)
+            {
+                return BadRequest(businessException);
+            }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
             }
         }
 
@@ -119,7 +128,7 @@ namespace Gap.Seguros.API.Controllers
         [HttpDelete("eliminarPoliza/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EliminarPoliza(int id)
         {
             try
@@ -133,7 +142,7 @@ namespace Gap.Seguros.API.Controllers
             }
             catch (Exception exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
             }
         }
     }
