@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gap.Seguros.Domain.Dto;
+using Gap.Seguros.Domain.Model;
 using Gap.Seguros.Domain.Repository;
 
 namespace Gap.Seguros.API.Services
@@ -29,6 +30,34 @@ namespace Gap.Seguros.API.Services
         public Task<List<PolizaViewModel>> ConsultarPolizas()
         {
             return this._polizaRepository.ConsultarPolizas();
+        }
+
+        /// <summary>
+        /// Crea una nueva poliza.
+        /// </summary>
+        /// <param name="nuevaPoliza">la nueva poliza.</param>
+        /// <returns></returns>
+        public Task<int> CrearPoliza(Poliza nuevaPoliza)
+        {
+            return this._polizaRepository.CrearPoliza(nuevaPoliza);
+        }
+
+        /// <summary>
+        /// Actualiza la poliza.
+        /// </summary>
+        /// <param name="poliza">la poliza.</param>
+        public Task<int> EditarPoliza(Poliza poliza)
+        {
+            return this._polizaRepository.EditarPoliza(poliza);
+        }
+
+        /// <summary>
+        /// Elimina la poliza con identificador id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        public Task<int> EliminarPoliza(int id)
+        {
+            return this._polizaRepository.EliminarPoliza(id);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain.Dto;
+using Gap.Seguros.Domain.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -56,29 +57,84 @@ namespace Gap.Seguros.API.Controllers
             }
         }
 
-        // GET: api/Poliza/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+
+
+
+        /// <summary>
+        /// Crea una nueva poliza.
+        /// </summary>
+        /// <param name="nuevaPoliza">la nueva poliza.</param>
+        [HttpPost("crearPoliza")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CrearPoliza(Poliza nuevaPoliza)
         {
-            return "value";
+            try
+            {
+                var resultadoCrearPoliza = await this._gestionPolizaService.CrearPoliza(nuevaPoliza).ConfigureAwait(false);
+                if (resultadoCrearPoliza > 0)
+                {
+                    return Ok(nuevaPoliza.Id);
+                }
+                return NotFound();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+            }
         }
 
-        // POST: api/Poliza
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        /// <summary>
+        /// Actualiza la poliza con los nuevos cambios.
+        /// </summary>
+        /// <param name="poliza">La poliza.</param>
+        [HttpPut("editarPoliza")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> EditarPoliza(Poliza poliza)
         {
+            try
+            {
+                var resultadoEditarPoliza = await this._gestionPolizaService.EditarPoliza(poliza).ConfigureAwait(false);
+                if (resultadoEditarPoliza > 0)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+            }
         }
 
-        // PUT: api/Poliza/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        /// <summary>
+        /// Elimina la poliza.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        [HttpDelete("eliminarPoliza/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(Exception), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> EliminarPoliza(int id)
         {
+            try
+            {
+                var resultadoEliminarPoliza = await this._gestionPolizaService.EliminarPoliza(id).ConfigureAwait(false);
+                if (resultadoEliminarPoliza > 0)
+                {
+                    return Ok();
+                }
+                return NotFound();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception);
+            }
         }
     }
 }

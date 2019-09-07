@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Gap.Seguros.Domain.Model
 {
     public partial class Poliza
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int TipoCubrimientoId { get; set; }
@@ -16,9 +17,13 @@ namespace Gap.Seguros.Domain.Model
         public int EstadoPolizaId { get; set; }
         public int UsuarioId { get; set; }
 
+        [JsonIgnore]
         public virtual EstadoPoliza EstadoPoliza { get; set; }
+        [JsonIgnore]
         public virtual TipoCubrimiento TipoCubrimiento { get; set; }
+        [JsonIgnore]
         public virtual TipoRiesgo TipoRiesgo { get; set; }
+        [JsonIgnore]
         public virtual Usuario Usuario { get; set; }
     }
 }

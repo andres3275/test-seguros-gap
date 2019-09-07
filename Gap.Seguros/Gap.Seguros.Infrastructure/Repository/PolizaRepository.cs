@@ -4,6 +4,7 @@ using Gap.Seguros.Domain.Dto;
 using Gap.Seguros.Domain.Repository;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Gap.Seguros.Domain.Model;
 
 namespace Gap.Seguros.Infrastructure.Repository
 {
@@ -45,6 +46,28 @@ namespace Gap.Seguros.Infrastructure.Repository
                                     Id = poliza.Id
                                 }).ToListAsync();
             return listaPolizas;
+        }
+
+        public Task<int> CrearPoliza(Poliza nuevaPoliza)
+        {
+            _dbContext.Poliza.Add(nuevaPoliza);
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task<int> EditarPoliza(Poliza poliza)
+        {
+            _dbContext.Entry(poliza).State = EntityState.Modified;
+            return _dbContext.SaveChangesAsync();
+        }
+
+        public Task<int> EliminarPoliza(int id)
+        {
+            Poliza polizaAEliminar = new Poliza
+            {
+                Id = id
+            };
+            _dbContext.Poliza.Remove(polizaAEliminar);
+            return _dbContext.SaveChangesAsync();
         }
     }
 }

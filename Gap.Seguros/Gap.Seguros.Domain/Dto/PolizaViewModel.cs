@@ -6,7 +6,7 @@ namespace Gap.Seguros.Domain.Dto
 {
     public class PolizaViewModel
     {
-        public int Id {get;set;}
+        public int? Id {get;set;}
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public int TipoCubrimientoId { get; set; }
