@@ -3,3 +3,6 @@
 /Gap.Seguros/Gap.Seguros.API/obj/*
 /Gap.Seguros/Gap.Seguros.Domain/obj/*
 /Gap.Seguros/Gap.Seguros.Infrastructure/obj/*
+/Gap.Seguros/Gap.Seguros.API/bin/*
+/Gap.Seguros/Gap.Seguros.Domain/bin/*
+/Gap.Seguros/Gap.Seguros.Infrastructure/bin/*
