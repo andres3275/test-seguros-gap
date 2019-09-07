@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
+using Gap.Seguros.API.Services;
+using Gap.Seguros.Domain.Repository;
+using Gap.Seguros.Infrastructure.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Gap.Seguros.API
@@ -31,8 +30,9 @@ namespace Gap.Seguros.API
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                             .AllowAnyMethod()
                                                              .AllowAnyHeader()));
-            //services.AddScoped<IAgenteOds, AgenteOds>();
-            //services.AddDbContext<AcmeConfiguracionContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlServerConnectionString")));
+            services.AddScoped<IGestionPolizaService, GestionPolizaService>();
+            services.AddScoped<IPolizaRepository, PolizaRepository>();
+            services.AddDbContext<GapSegurosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlServerConnectionString")));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
