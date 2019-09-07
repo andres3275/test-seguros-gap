@@ -26,17 +26,23 @@ namespace Gap.Seguros.Infrastructure.Repository
                                 join tipoRiesgo in _dbContext.TipoRiesgo on poliza.TipoRiesgoId equals tipoRiesgo.Id
                                 join tipoCubrimiento in _dbContext.TipoCubrimiento on poliza.TipoCubrimientoId equals tipoCubrimiento.Id
                                 join estadoPoliza in _dbContext.EstadoPoliza on poliza.EstadoPolizaId equals estadoPoliza.Id
-                                select new PolizaViewModel {
-                                    Cliente =usuario.Nombre,
-                                    TipoCubrimiento =tipoCubrimiento.Nombre,
+                                select new PolizaViewModel
+                                {
+                                    UsuarioId = usuario.Id,
+                                    Cliente = usuario.Nombre,
+                                    TipoCubrimientoId = tipoCubrimiento.Id,
+                                    TipoCubrimiento = tipoCubrimiento.Nombre,
                                     Cobertura = poliza.Cobertura,
                                     Descripcion = poliza.Descripcion,
                                     DuracionMesesCobertura = poliza.DuracionMesesCobertura,
+                                    EstadoPolizaId = estadoPoliza.Id,
                                     EstadoPoliza = estadoPoliza.Nombre,
                                     FechaInicioVigencia = poliza.FechaInicioVigencia,
                                     Nombre = poliza.Nombre,
                                     Precio = poliza.Precio,
-                                    TipoRiesgo = tipoRiesgo.Nombre
+                                    TipoRiesgoId = tipoRiesgo.Id,
+                                    TipoRiesgo = tipoRiesgo.Nombre,
+                                    Id = poliza.Id
                                 }).ToListAsync();
             return listaPolizas;
         }
