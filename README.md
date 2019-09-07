@@ -1,10 +1,10 @@
 # test-seguros-gap
-Prueba tecnica de ingreso a Growth Acceleration Process
+Prueba tecnica de ingreso a Growth Acceleration Partners
 
 ## Artefactos
 * Gap.Seguros proyecto backend en .net core 2.2
 * GAP_seguros.EAP proyecto de enterprise architect v12 con modelos ER y clases
-* sql_scripts scripts DDL y DML del proyecto (motor base de datos usado sql server express)
+* sql_scripts scripts DDL y DML del proyecto (motor base de datos usado sql server express) (Método Database first usado)
 
 ## Backend Dependencias
 * .net core 2.2
