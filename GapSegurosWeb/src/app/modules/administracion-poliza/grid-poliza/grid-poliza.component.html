@@ -5,92 +5,98 @@
     placeholder="Buscar"
   />
 </mat-form-field>
+<div>
+  <div class="table-responsive">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8 table-striped table-sm"
+      matSort
+    >
+      <ng-container matColumnDef="Nombre">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+      </ng-container>
 
-<table
-  mat-table
-  [dataSource]="dataSource"
-  class="mat-elevation-z8 table-striped table-sm"
-  matSort
->
-  <ng-container matColumnDef="Nombre">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-    <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
-  </ng-container>
+      <ng-container matColumnDef="Descripcion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Concepto</th>
+        <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
+      </ng-container>
 
-  <ng-container matColumnDef="Descripcion">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Concepto</th>
-    <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
-  </ng-container>
+      <ng-container matColumnDef="TipoCubrimiento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Tipo Cubrimiento
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.tipoCubrimiento }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="TipoCubrimiento">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Cubrimiento</th>
-    <td mat-cell *matCellDef="let element">{{ element.tipoCubrimiento }}</td>
-  </ng-container>
+      <ng-container matColumnDef="Cobertura">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cobertura</th>
+        <td mat-cell *matCellDef="let element">{{ element.cobertura }}%</td>
+      </ng-container>
 
-  <ng-container matColumnDef="Cobertura">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cobertura</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.cobertura }}%
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="TipoRiesgo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Riesgo</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.tipoRiesgo }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="TipoRiesgo">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Riesgo</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.tipoRiesgo }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="FechaInicioVigencia">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.fechaInicioVigencia | date: "dd/mm/yyyy" }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="FechaInicioVigencia">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.fechaInicioVigencia | date:'dd/mm/yyyy' }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="DuracionMesesCobertura">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Duración Meses
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.duracionMesesCobertura }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="DuracionMesesCobertura">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Duración Meses</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.duracionMesesCobertura }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="Precio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.precio }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="Precio">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.precio }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="EstadoPoliza">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.estadoPoliza }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="EstadoPoliza">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.estadoPoliza }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="Cliente">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.cliente }}
+        </td>
+      </ng-container>
 
-  <ng-container matColumnDef="Cliente">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.cliente }}
-    </td>
-  </ng-container>
+      <ng-container matColumnDef="Operaciones">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Operaciones</th>
+        <td mat-cell *matCellDef="let element"></td>
+      </ng-container>
 
-  <ng-container matColumnDef="Operaciones">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>Operaciones</th>
-    <td mat-cell *matCellDef="let element"></td>
-  </ng-container>
-
-  <tr
-    mat-header-row
-    *matHeaderRowDef="tableConfiguration.displayedColumns"
-  ></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: tableConfiguration.displayedColumns"
-  ></tr>
-</table>
-
-<mat-paginator
-  [pageSizeOptions]="tableConfiguration.pageSizeOptions"
-></mat-paginator>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="tableConfiguration.displayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: tableConfiguration.displayedColumns"
+      ></tr>
+    </table>
+  </div>
+  <mat-paginator
+    [pageSizeOptions]="tableConfiguration.pageSizeOptions"
+  ></mat-paginator>
+</div>
