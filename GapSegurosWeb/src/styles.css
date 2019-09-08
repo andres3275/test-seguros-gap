@@ -1,2 +1,4 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import '~font-awesome/css/font-awesome.min.css'

@@ -1,10 +1,29 @@
 <h2>Polizas</h2>
-
+<div class="row">
+  <div class="col-lg-8 col-md-12 col-sm-12">
+    <app-selector-cliente
+      (clienteSeleccionadoEmitter)="onClienteSeleccionado($event)"
+      [clientes]="clientes"
+    ></app-selector-cliente>
+  </div>
+</div>
 <div class="row">
   <div class="col-lg-8 col-md-12 col-sm-12">
     <app-grid-poliza
       [data]="polizas"
       [tableConfiguration]="tablaPolizasConfiguration"
+      (polizaSeleccionadaEmmiter)="onPolizaSeleccionada($event)"
+      (editarPolizaEmmiter)="onEditarPolizaSeleccionada($event)"
+      (eliminarPolizaEmmiter)="onEliminarPolizaSeleccionada($event)"
     ></app-grid-poliza>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <button (click)="onCancelarPolizas()" class="btn btn-primary btn-block">Cancelar Polizas</button>
+    <br>
+  </div>
+  <div class="col-lg-4 col-md-6 col-sm-12">
+    <button (click)="onAsignarClientePolizas()" class="btn btn-primary btn-block">Asignar Polizas Cliente</button>
   </div>
 </div>

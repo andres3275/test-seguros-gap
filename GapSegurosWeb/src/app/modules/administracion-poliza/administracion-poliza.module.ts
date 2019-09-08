@@ -8,11 +8,14 @@ import { EstadoPolizaService } from "./estado-poliza.service";
 import { AdministracionPolizaComponent } from "./administracion-poliza.component";
 import { GridPolizaComponent } from "./grid-poliza/grid-poliza.component";
 import { SharedModule } from "src/app/shared/shared.module";
+import { SelectorClienteComponent } from './selector-cliente/selector-cliente.component';
+import { FormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  declarations: [AdministracionPolizaComponent, GridPolizaComponent],
+  declarations: [AdministracionPolizaComponent, GridPolizaComponent, SelectorClienteComponent],
   exports: [AdministracionPolizaComponent],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, SharedModule,FormsModule,NgSelectModule],
   providers: [
     AdministracionPolizaService,
     UsuarioService,

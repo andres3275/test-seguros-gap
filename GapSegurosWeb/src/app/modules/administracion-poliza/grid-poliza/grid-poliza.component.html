@@ -13,6 +13,13 @@
       class="mat-elevation-z8 table-striped table-sm"
       matSort
     >
+      <ng-container matColumnDef="Seleccion">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Selección</th>
+        <td mat-cell *matCellDef="let element">
+          <input type="checkbox" (click)="onRegistroSeleccionado(element)" />
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="Nombre">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
         <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
@@ -83,7 +90,16 @@
 
       <ng-container matColumnDef="Operaciones">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Operaciones</th>
-        <td mat-cell *matCellDef="let element"></td>
+        <td mat-cell *matCellDef="let element">
+          <i (click)="onEditarPoliza(element)"
+            class="fa fa-pencil-square fa-2x"
+            aria-hidden="true"
+            placement="top"
+          ></i
+          >&nbsp;
+          <i (click)="onEliminarPoliza(element)" class="fa fa-trash fa-2x" aria-hidden="true" placement="top"></i
+          >&nbsp;
+        </td>
       </ng-container>
 
       <tr
