@@ -13,3 +13,6 @@ Prueba tecnica de ingreso a Growth Acceleration Partners
 ## Procedimiento ejecución backend
 * Restaurar dependencias del proyecto : dotnet restore en consola proyecto inicial (API)
 * Compilar el proyecto: dotnet build en consola proyecto inicial (API)
+
+## Archivo configuracion Backend
+La cadena de conexión a la base de datos es configurada en el archivo appsettings.json del proyecto web API en la propiedad sqlServerConnectionString 

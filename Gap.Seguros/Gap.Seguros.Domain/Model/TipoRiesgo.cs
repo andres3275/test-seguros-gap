@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Gap.Seguros.Domain.Model
 {
@@ -12,7 +13,7 @@ namespace Gap.Seguros.Domain.Model
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Poliza> Poliza { get; set; }
     }
 }

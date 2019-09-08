@@ -34,6 +34,14 @@ namespace Gap.Seguros.API
             services.AddScoped<IGestionPolizaService, GestionPolizaService>();
             services.AddScoped<IPolizaRepository, PolizaRepository>();
             services.AddScoped<IPolizaService, PolizaService>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IGestionUsuarioService, GestionUsuarioService>();
+            services.AddScoped<ITipoRiesgoRepository, TipoRiesgoRepository>();
+            services.AddScoped<IGestionTipoRiesgoService, GestionTipoRiesgoService>();
+            services.AddScoped<ITipoCubrimientoRepository, TipoCubrimientoRepository>();
+            services.AddScoped<IGestionTipoCubrimientoService, GestionTipoCubrimientoService>();
+            services.AddScoped<IEstadoPolizaRepository, EstadoPolizaRepository>();
+            services.AddScoped<IGestionEstadoPolizaService, GestionEstadoPolizaService>();
             services.AddDbContext<GapSegurosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlServerConnectionString")));
             services.AddSwaggerGen(c =>
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace Gap.Seguros.Domain.Model
 {
@@ -16,7 +17,9 @@ namespace Gap.Seguros.Domain.Model
         public string Contrasenia { get; set; }
         public int TipoUsuarioId { get; set; }
 
+        [JsonIgnore]
         public virtual TipoUsuario TipoUsuario { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Poliza> Poliza { get; set; }
     }
 }
