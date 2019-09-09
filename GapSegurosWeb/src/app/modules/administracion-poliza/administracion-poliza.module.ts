@@ -11,11 +11,13 @@ import { SharedModule } from "src/app/shared/shared.module";
 import { SelectorClienteComponent } from './selector-cliente/selector-cliente.component';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CrudPolizaComponent } from './crud-poliza/crud-poliza.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
-  declarations: [AdministracionPolizaComponent, GridPolizaComponent, SelectorClienteComponent],
+  declarations: [AdministracionPolizaComponent, GridPolizaComponent, SelectorClienteComponent, CrudPolizaComponent],
   exports: [AdministracionPolizaComponent],
-  imports: [CommonModule, SharedModule,FormsModule,NgSelectModule],
+  imports: [CommonModule, SharedModule,FormsModule,NgSelectModule,NgbModule],
   providers: [
     AdministracionPolizaService,
     UsuarioService,

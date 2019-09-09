@@ -19,11 +19,57 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-lg-4 col-md-6 col-sm-12">
-    <button (click)="onCancelarPolizas()" class="btn btn-primary btn-block">Cancelar Polizas</button>
-    <br>
+  <div class="col-lg-2 col-md-6 col-sm-12">
+    <button (click)="onConsultarPolizas()" class="btn btn-primary btn-block">
+      Consultar Polizas
+    </button>
+    <br />
   </div>
-  <div class="col-lg-4 col-md-6 col-sm-12">
-    <button (click)="onAsignarClientePolizas()" class="btn btn-primary btn-block">Asignar Polizas Cliente</button>
+  <div class="col-lg-2 col-md-6 col-sm-12">
+    <button
+      (click)="onCrearPoliza(plantillaCrudPoliza)"
+      class="btn btn-primary btn-block"
+    >
+      Crear Poliza
+    </button>
+    <br />
+  </div>
+  <div class="col-lg-2 col-md-6 col-sm-12">
+    <button (click)="onCancelarPolizas()" class="btn btn-primary btn-block">
+      Cancelar Polizas
+    </button>
+    <br />
+  </div>
+  <div class="col-lg-2 col-md-6 col-sm-12">
+    <button
+      (click)="onAsignarClientePolizas()"
+      class="btn btn-primary btn-block"
+    >
+      Asignar Polizas Cliente
+    </button>
   </div>
 </div>
+
+<ng-template #plantillaCrudPoliza let-modal>
+  <div class="modal-header">
+    <h4 *ngIf="!esEditarPoliza" class="modal-title">Crear Póliza</h4>
+    <h4 *ngIf="esEditarPoliza" class="modal-title">Editar Póliza</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="salirModalCrudPoliza()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-crud-poliza
+      (salirModalCrudPolizaEmmiter)="salirModalCrudPoliza()"
+      (guardarPolizaEmmiter)="onGuardarPoliza($event)"
+      [clientes]="clientes"
+      [tiposRiesgo]="tiposRiesgo"
+      [tiposCubrimiento]="tiposCubrimiento"
+    ></app-crud-poliza>
+  </div>
+</ng-template>

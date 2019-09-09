@@ -1,0 +1,199 @@
+<div class="row">
+  <div class="col-lg-6">
+    <fieldset class="form-group">
+      <label>Nombre</label>
+      <input
+        [(ngModel)]="poliza.nombre"
+        #nombre="ngModel"
+        type="text"
+        class="form-control"
+        placeholder="Nombre Póliza"
+        maxlength="40"
+        required
+      />
+      <div *ngIf="nombre.errors?.required" class="invalid-feedback">
+        Este campo es obligatorio
+      </div>
+      <div *ngIf="nombre.errors?.maxlength" class="invalid-feedback">
+        La longitud máxima de este campo no puede exceder 40 carácteres.
+      </div>
+    </fieldset>
+  </div>
+  <div class="col-lg-6">
+    <fieldset class="form-group">
+      <label>Descripción</label>
+      <textarea
+        #descripcion="ngModel"
+        maxlength="140"
+        [(ngModel)]="poliza.descripcion"
+        class="form-control"
+        placeholder="Descripción Póliza"
+      ></textarea>
+      <div *ngIf="descripcion.errors?.maxlength" class="invalid-feedback">
+        La longitud máxima de este campo no puede exceder 140 caracteres.
+      </div>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6">
+    <fieldset class="form-group">
+      <label>Cobertura</label>
+      <input
+        type="number"
+        #cobertura="ngModel"
+        [(ngModel)]="poliza.cobertura"
+        class="form-control"
+        placeholder="Cobertura Póliza"
+        min="0"
+        max="100"
+        required
+      />
+      <div *ngIf="cobertura.errors?.required" class="invalid-feedback">
+        Este campo es obligatorio
+      </div>
+      <div *ngIf="cobertura.errors?.max" class="invalid-feedback">
+        El valor no puede ser mayor a 100.
+      </div>
+      <div *ngIf="cobertura.errors?.min" class="invalid-feedback">
+        El valor no puede ser menor a 0.
+      </div>
+    </fieldset>
+  </div>
+  <div class="col-lg-6">
+    <fieldset class="form-group">
+      <label>Fecha Inicio Vigencia</label>
+      <app-date-control
+        #fechaInicioVigencia
+        [dcFecha]="poliza.fechaInicioVigencia"
+      ></app-date-control>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <fieldset class="form-group">
+      <label>Duración Meses Cobertura</label>
+      <input
+        type="number"
+        #duracionCobertura="ngModel"
+        [(ngModel)]="poliza.duracionMesesCobertura"
+        class="form-control"
+        placeholder="Duración meses Cobertura Póliza"
+        min="1"
+        max="10000"
+        required
+      />
+      <div *ngIf="duracionCobertura.errors?.required" class="invalid-feedback">
+        Este campo es obligatorio
+      </div>
+      <div *ngIf="duracionCobertura.errors?.max" class="invalid-feedback">
+        El valor no puede ser mayor a 10000.
+      </div>
+      <div *ngIf="duracionCobertura.errors?.min" class="invalid-feedback">
+        El valor no puede ser menor a 0.
+      </div>
+    </fieldset>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <fieldset class="form-group">
+      <label>Cliente</label>
+      <ng-select
+        *ngIf="clientes"
+        [(ngModel)]="poliza.usuarioId"
+        placeholder="Seleccione el Cliente"
+      >
+        <ng-option *ngFor="let cliente of clientes" [value]="cliente.id">{{
+          cliente.nombre
+        }}</ng-option>
+      </ng-select>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-sm-12">
+    <fieldset class="form-group">
+      <label>Tipo Riesgo</label>
+      <ng-select
+        *ngIf="tiposRiesgo"
+        [(ngModel)]="poliza.tipoRiesgoId"
+        placeholder="Seleccione el Tipo de riesgo"
+      >
+        <ng-option
+          *ngFor="let tipoRiesgo of tiposRiesgo"
+          [value]="tipoRiesgo.id"
+          >{{ tipoRiesgo.nombre }}</ng-option
+        >
+      </ng-select>
+    </fieldset>
+  </div>
+  <div class="col-md-6 col-sm-12">
+    <fieldset class="form-group">
+      <label>Tipo Cubrimiento</label>
+      <ng-select
+        *ngIf="tiposCubrimiento"
+        [(ngModel)]="poliza.tipoCubrimientoId"
+        placeholder="Seleccione el Tipo de cubrimiento"
+      >
+        <ng-option
+          *ngFor="let tipoCubrimiento of tiposCubrimiento"
+          [value]="tipoCubrimiento.id"
+          >{{ tipoCubrimiento.nombre }}</ng-option
+        >
+      </ng-select>
+    </fieldset>
+  </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+      <fieldset class="form-group">
+        <label>Precio</label>
+        <input
+          type="number"
+          #precio="ngModel"
+          [(ngModel)]="poliza.precio"
+          class="form-control"
+          placeholder="Precio de la Póliza"
+          min="0"
+          max="999999"
+          required
+        />
+        <div *ngIf="precio.errors?.required" class="invalid-feedback">
+          Este campo es obligatorio
+        </div>
+        <div *ngIf="precio.errors?.max" class="invalid-feedback">
+          El valor no puede ser mayor a 999999.
+        </div>
+        <div *ngIf="precio.errors?.min" class="invalid-feedback">
+          El valor no puede ser menor a 0.
+        </div>
+      </fieldset>
+    </div>
+  </div>
+<div class="row">
+  <div class="col-lg-6 col-md-3 col-sm-12">
+    <button
+      class="btn btn-primary btn-block"
+      type="button"
+      (click)="onGuardarPoliza(fechaInicioVigencia)"
+      [disabled]="
+        nombre.errors?.required ||
+        cobertura.errors?.required ||
+        duracionCobertura.errors?.required
+      "
+    >
+      Guardar
+    </button>
+    <br />
+  </div>
+  <div class="col-lg-6 col-md-3 col-sm-12">
+    <button
+      class="btn btn-primary btn-block"
+      type="button"
+      (click)="onSalirModal()"
+    >
+      Salir
+    </button>
+    <br /><br />
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TableComponent } from "./table/table.component";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   MatTableModule,
   MatInputModule,
@@ -9,6 +9,9 @@ import {
   MatPaginatorModule,
   MatSortModule
 } from "@angular/material";
+import { DateControlComponent } from "./date-control/date-control.component";
+import { FormsModule } from "@angular/forms";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
@@ -18,9 +21,11 @@ import {
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule,
+    NgbModule
   ],
-  declarations: [TableComponent],
+  declarations: [TableComponent, DateControlComponent],
   exports: [
     TableComponent,
     MatTableModule,
@@ -28,7 +33,8 @@ import {
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    DateControlComponent
   ],
   entryComponents: [],
   providers: []
