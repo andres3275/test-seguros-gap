@@ -16,3 +16,6 @@ Prueba tecnica de ingreso a Growth Acceleration Partners
 
 ## Archivo configuracion Backend
 La cadena de conexión a la base de datos es configurada en el archivo appsettings.json del proyecto web API en la propiedad sqlServerConnectionString 
+
+## Instrucciones Uso Aplicación
+* Para acceder a la aplicación usar las credenciales UserName: alexander Password:12345
