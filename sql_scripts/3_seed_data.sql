@@ -49,7 +49,7 @@ INSERT INTO [dbo].[Usuario]
            ,[contrasenia]
 		   ,[tipoUsuarioId])
      VALUES
-           ('Alexander Vargas' ,'1056699885','','',2),
+           ('Alexander Vargas' ,'1056699885','alexander','1f32aa4c9a1d2ea010adcf2348166a04',2),
 		   ('Daniela Morales' ,'1079658885','','',3),
 		   ('Alejandro Botero' ,'1036654485','','',3)
 GO

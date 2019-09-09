@@ -1,3 +1,4 @@
 export const enum RutasAplicacion {
-    administrarPoliza = "/administracion-poliza"
+    administrarPoliza = "administracion-poliza",
+    login = "login"
 }

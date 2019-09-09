@@ -13,5 +13,12 @@ namespace Gap.Seguros.API.Services
         ///  Obtiene la lista de usuarios donde el tipo usuario es cliente.
         /// </summary>
         Task<List<Usuario>> ConsultarClientes();
+
+        /// <summary>
+        /// Autentica el usuario especificado y genera un token jwt.
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <returns></returns>
+        Task<string> Autenticar(Usuario usuario);
     }
 }

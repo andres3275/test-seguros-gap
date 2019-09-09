@@ -8,3 +8,4 @@
 /Gap.Seguros/Gap.Seguros.Infrastructure/bin/*
 /Gap.Seguros/Gap.Seguros.UnitTests/bin/*
 /Gap.Seguros/Gap.Seguros.UnitTests/obj/*
+/Gap.Seguros/Gap.Seguros.API/utils/*.TMP

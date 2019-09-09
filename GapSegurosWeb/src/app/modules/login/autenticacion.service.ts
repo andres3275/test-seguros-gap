@@ -11,7 +11,7 @@ export class AutenticacionService {
 
   constructor(private _httpClient: HttpClient) { }
 
-  public autenticar(usuario: Usuario): Observable<string> {
-    return this._httpClient.post<string>(environment.apiUrl + "/Usuario/autenticar", usuario);
+  public autenticar(usuario: Usuario): Observable<any> {
+    return this._httpClient.post<any>(environment.apiUrl + "/Usuario/autenticar", usuario);
   }
 }

@@ -38,19 +38,25 @@ export class LoginComponent implements OnDestroy {
     this._subscripcionFinalizada$.complete();
   }
 
-  private aplicarMd5HashContrasenia(): void {
-    this.usuario.contrasenia = CryptoJS.MD5(this.usuario.contrasenia);
+  private aplicarMd5HashContrasenia(): string {
+    return CryptoJS.MD5(this.usuario.contrasenia).toString();
   }
 
   private autenticar(): void {
     mostrarLoading();
-    this.aplicarMd5HashContrasenia();
-    this._autenticacionService.autenticar(this.usuario)
+    const usuario: Usuario = {
+      cedula: undefined,
+      id: undefined,
+      nombre: undefined,
+      contrasenia: this.aplicarMd5HashContrasenia(),
+      nombreUsuario: this.usuario.nombreUsuario
+    };
+    this._autenticacionService.autenticar(usuario)
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
-        (respuesta: string) => {
+        (respuesta: any) => {
           ocultarLoading();
-          this._almacenamientoLocalService.almacenarInformacion(LlavesAlmacenamientoLocal.token, respuesta);
+          this._almacenamientoLocalService.almacenarInformacion(LlavesAlmacenamientoLocal.token, respuesta.token);
           this._router.navigate([RutasAplicacion.administrarPoliza]);
         },
         (error: any) => {

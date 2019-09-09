@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Gap.Seguros.API.Services;
@@ -48,6 +46,32 @@ namespace Gap.Seguros.API.Controllers
                     return Ok(listaClientes);
                 }
                 return NotFound();
+            }
+            catch (Exception exception)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// Autentica el usuario especificado y genera un token jwt.
+        /// </summary>
+        /// <param name="usuario">The usuario.</param>
+        /// <returns></returns>
+        [HttpPost("autenticar")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Autenticar(Usuario usuario)
+        {
+            try
+            {
+                var token = await this._gestionUsuarioService.Autenticar(usuario).ConfigureAwait(false);
+                if (token != null)
+                {
+                    return Ok(new { token });
+                }
+                return Unauthorized();
             }
             catch (Exception exception)
             {

@@ -39,7 +39,7 @@
 </div>
 <div class="row">
   <div class="form-group col-lg-4 col-md-4 col-sm-12">
-    <button
+    <button (click)="onLogin()"
       [disabled]="
         nombreUsuario.errors?.required ||
         nombreUsuario.errors?.maxlength ||

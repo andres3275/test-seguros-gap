@@ -125,8 +125,8 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
       !this._clienteSeleccionado || !this._clienteSeleccionado.id
         ? "Debe seleccionar el cliente primero."
         : !this._polizasSeleccionadas || this._polizasSeleccionadas.length === 0
-        ? "Debe seleccionar al menos una poliza."
-        : undefined;
+          ? "Debe seleccionar al menos una poliza."
+          : undefined;
     if (!mensajeError) {
       this.AsignarClientePolizas();
       this.guardarCambiosPolizas();
@@ -327,7 +327,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     this.consultarPolizas()
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
-        () => {},
+        () => { },
         (error: any) => {
           this._existeErrorConsultaPolizas = true;
           this.procesarError(error);
@@ -455,7 +455,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
 
   private cargarInformacionAdministracionPolizas(): void {
     mostrarLoading();
-    combineLatest(this.consultarPolizas(), this.consultarClientes())
+    this.consultarClientes()
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
         () => {

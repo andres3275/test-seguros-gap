@@ -25,5 +25,14 @@ namespace Gap.Seguros.Infrastructure.Repository
                                  select usuario).ToListAsync();
             return listaClientes;
         }
+
+        public Task<Usuario> ConsultarXNombreUsuarioContrasenia(Usuario usuario)
+        {
+            var usuarioResultado = (from usuarioTabla in _dbContext.Usuario
+                                    where usuarioTabla.NombreUsuario.Equals(usuario.NombreUsuario)
+                                        && usuarioTabla.Contrasenia.Equals(usuario.Contrasenia)
+                                    select usuarioTabla).FirstOrDefaultAsync();
+            return usuarioResultado;
+        }
     }
 }
