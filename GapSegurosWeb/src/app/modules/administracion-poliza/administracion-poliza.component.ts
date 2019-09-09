@@ -20,7 +20,8 @@ import { EstadosPoliza } from "src/app/shared/constants/estados-poliza.enum";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { TipoRiesgo } from "src/app/shared/interfaces/tipo-riesgo.model";
 import { TipoCubrimiento } from "src/app/shared/interfaces/tipo-cubrimiento.model";
-import { LIMITEEXCEDIDOCOBERTURARIESGOALTO } from 'src/app/shared/constants/excepciones-negocio';
+import { LIMITEEXCEDIDOCOBERTURARIESGOALTO } from "src/app/shared/constants/excepciones-negocio";
+import { EstadoPoliza } from "src/app/shared/interfaces/estado-poliza.model";
 
 @Component({
   selector: "app-administracion-poliza",
@@ -34,7 +35,9 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
   public tiposRiesgo: TipoRiesgo[];
   public tiposCubrimiento: TipoCubrimiento[];
   public clientes: Usuario[];
+  public estadosPoliza: EstadoPoliza[];
   public esEditarPoliza: boolean;
+  public polizaSeleccionadaEditar: Poliza;
   private _existeErrorConsultaPolizas: boolean;
   private _existeErrorConsultaClientes: boolean;
   private _existeErrorEliminarPoliza: boolean;
@@ -42,6 +45,8 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
   private _existeErrorCrearNuevaPoliza: boolean;
   private _existeErrorConsultaTiposRiesgo: boolean;
   private _existeErrorConsultaTiposCubrimiento: boolean;
+  private _existeErrorConsultaEstadosPoliza: boolean;
+  private _existeErrorEditarPolizaExistente: boolean;
   private _clienteSeleccionado: Usuario;
   private _polizasSeleccionadas: Poliza[];
   private _crudPolizaModal: NgbModalRef;
@@ -88,8 +93,22 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onEditarPolizaSeleccionada(poliza: PolizaViewModel): void {
-    console.log(poliza);
+  public onEditarPolizaSeleccionada(
+    elemento: PolizaViewModel,
+    plantillaCrudPoliza: any
+  ): void {
+    this.esEditarPoliza = true;
+    this.polizaSeleccionadaEditar = this.mapearPolizaViewModelAPoliza(elemento);
+    mostrarLoading();
+    this.cargarInformacionModalEditarPoliza()
+      .pipe(takeUntil(this._subscripcionFinalizada$))
+      .subscribe(
+        () => {
+          ocultarLoading();
+          this.abrirModalCrudPoliza(plantillaCrudPoliza);
+        },
+        (error: any) => this.procesarError(error)
+      );
   }
 
   public onEliminarPolizaSeleccionada(poliza: PolizaViewModel): void {
@@ -122,7 +141,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
 
   public onCrearPoliza(plantillaCrudPoliza: any): void {
     mostrarLoading();
-    this.cargarInformacionModalCrudPolizas()
+    this.cargarInformacionModalCrearPoliza()
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
         () => {
@@ -134,7 +153,25 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
   }
 
   public salirModalCrudPoliza(): void {
+    this.resetearVariablesEditarPoliza();
     this._crudPolizaModal.close();
+  }
+
+  private resetearVariablesEditarPoliza(): void {
+    this.polizaSeleccionadaEditar = {
+      cobertura: undefined,
+      descripcion: undefined,
+      duracionMesesCobertura: undefined,
+      tipoRiesgoId: undefined,
+      estadoPolizaId: undefined,
+      fechaInicioVigencia: undefined,
+      id: undefined,
+      nombre: undefined,
+      precio: undefined,
+      tipoCubrimientoId: undefined,
+      usuarioId: undefined
+    };
+    this.esEditarPoliza = undefined;
   }
 
   private abrirModalCrudPoliza(plantillaCrudPoliza: any): void {
@@ -145,11 +182,33 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     });
   }
 
-  private cargarInformacionModalCrudPolizas(): Observable<any> {
+  private cargarInformacionModalCrearPoliza(): Observable<any> {
     return combineLatest(
       this.consultarTiposRiesgo(),
       this.consultarTiposCubrimiento()
     );
+  }
+
+  private cargarInformacionModalEditarPoliza(): Observable<any> {
+    return combineLatest(
+      this.consultarTiposRiesgo(),
+      this.consultarTiposCubrimiento(),
+      this.consultarEstadosPoliza()
+    );
+  }
+
+  private consultarEstadosPoliza(): Observable<EstadoPoliza[]> {
+    return this._estadoPolizaService
+      .consultarEstadosPoliza()
+      .pipe(
+        map((respuesta: EstadoPoliza[]) => (this.estadosPoliza = respuesta))
+      )
+      .pipe(
+        catchError((error: any) => {
+          this._existeErrorConsultaEstadosPoliza = true;
+          return throwError(error);
+        })
+      );
   }
 
   private consultarTiposRiesgo(): Observable<TipoRiesgo[]> {
@@ -184,7 +243,25 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     if (!this.esEditarPoliza) {
       this.crearNuevaPoliza(poliza);
     } else {
+      this.editarPolizaExistente(poliza);
     }
+  }
+
+  private editarPolizaExistente(poliza: Poliza): void {
+    mostrarLoading();
+    this._polizaService
+      .editarPoliza(poliza)
+      .pipe(takeUntil(this._subscripcionFinalizada$))
+      .subscribe(
+        () => {
+          this.actualizarInformacionTablaPolizas();
+          Swal.fire("Exito", "La Póliza Ha sido actualizada.", "success");
+        },
+        (error: any) => {
+          this._existeErrorEditarPolizaExistente = true;
+          this.procesarError(error);
+        }
+      );
   }
 
   private crearNuevaPoliza(poliza: Poliza): void {
@@ -312,6 +389,20 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
   private inicializarVariables(): void {
     this._clienteSeleccionado = undefined;
     this._polizasSeleccionadas = [];
+    this.esEditarPoliza = undefined;
+    this.polizaSeleccionadaEditar = {
+      cobertura: undefined,
+      descripcion: undefined,
+      duracionMesesCobertura: undefined,
+      tipoRiesgoId: undefined,
+      estadoPolizaId: undefined,
+      fechaInicioVigencia: undefined,
+      id: undefined,
+      nombre: undefined,
+      precio: undefined,
+      tipoCubrimientoId: undefined,
+      usuarioId: undefined
+    };
     this._existeErrorConsultaClientes = undefined;
     this._existeErrorConsultaPolizas = undefined;
     this._existeErrorEliminarPoliza = undefined;
@@ -319,6 +410,8 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     this._existeErrorGuardarCambiosPolizas = undefined;
     this._existeErrorConsultaTiposRiesgo = undefined;
     this._existeErrorConsultaTiposCubrimiento = undefined;
+    this._existeErrorConsultaEstadosPoliza = undefined;
+    this._existeErrorEditarPolizaExistente = undefined;
   }
 
   private finalizarSubscripciones(): void {
@@ -402,15 +495,27 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
           mensaje = "No hay Tipos de Cubrimiento Registrados.";
           this._existeErrorConsultaTiposCubrimiento = undefined;
         }
+        if (this._existeErrorConsultaEstadosPoliza) {
+          mensaje = "No hay Tipos de Cubrimiento Registrados.";
+          this._existeErrorConsultaEstadosPoliza = undefined;
+        }
+        if (this._existeErrorEditarPolizaExistente) {
+          mensaje = "No fue posible Efectuar los cambios en la póliza.";
+          this._existeErrorEditarPolizaExistente = undefined;
+        }
         break;
       }
       case HttpStatus.BAD_REQUEST: {
         if (
-          this._existeErrorCrearNuevaPoliza &&
+          (this._existeErrorCrearNuevaPoliza ||
+            this._existeErrorEditarPolizaExistente) &&
           error.error.Message &&
           error.error.Message === LIMITEEXCEDIDOCOBERTURARIESGOALTO
         ) {
-          mensaje = "El valor de la cobertura excede el limite para tipo de riesgo alto.";
+          mensaje =
+            "El valor de la cobertura excede el limite para tipo de riesgo alto.";
+          this._existeErrorCrearNuevaPoliza = undefined;
+          this._existeErrorEditarPolizaExistente = undefined;
         }
         break;
       }

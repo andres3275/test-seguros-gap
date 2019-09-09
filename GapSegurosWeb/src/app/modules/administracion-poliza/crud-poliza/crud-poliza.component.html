@@ -145,31 +145,47 @@
   </div>
 </div>
 <div class="row">
-    <div class="col-md-6 col-sm-12">
-      <fieldset class="form-group">
-        <label>Precio</label>
-        <input
-          type="number"
-          #precio="ngModel"
-          [(ngModel)]="poliza.precio"
-          class="form-control"
-          placeholder="Precio de la Póliza"
-          min="0"
-          max="999999"
-          required
-        />
-        <div *ngIf="precio.errors?.required" class="invalid-feedback">
-          Este campo es obligatorio
-        </div>
-        <div *ngIf="precio.errors?.max" class="invalid-feedback">
-          El valor no puede ser mayor a 999999.
-        </div>
-        <div *ngIf="precio.errors?.min" class="invalid-feedback">
-          El valor no puede ser menor a 0.
-        </div>
-      </fieldset>
-    </div>
+  <div class="col-md-6 col-sm-12">
+    <fieldset class="form-group">
+      <label>Precio</label>
+      <input
+        type="number"
+        #precio="ngModel"
+        [(ngModel)]="poliza.precio"
+        class="form-control"
+        placeholder="Precio de la Póliza"
+        min="0"
+        max="999999"
+        required
+      />
+      <div *ngIf="precio.errors?.required" class="invalid-feedback">
+        Este campo es obligatorio
+      </div>
+      <div *ngIf="precio.errors?.max" class="invalid-feedback">
+        El valor no puede ser mayor a 999999.
+      </div>
+      <div *ngIf="precio.errors?.min" class="invalid-feedback">
+        El valor no puede ser menor a 0.
+      </div>
+    </fieldset>
   </div>
+  <div class="col-md-6 col-sm-12" *ngIf="esEditarPoliza">
+    <fieldset class="form-group">
+      <label>Estado Poliza</label>
+      <ng-select
+        *ngIf="estadosPoliza"
+        [(ngModel)]="poliza.estadoPolizaId"
+        placeholder="Seleccione el Estado de la póliza"
+      >
+        <ng-option
+          *ngFor="let estadoPoliza of estadosPoliza"
+          [value]="estadoPoliza.id"
+          >{{ estadoPoliza.nombre }}</ng-option
+        >
+      </ng-select>
+    </fieldset>
+  </div>
+</div>
 <div class="row">
   <div class="col-lg-6 col-md-3 col-sm-12">
     <button

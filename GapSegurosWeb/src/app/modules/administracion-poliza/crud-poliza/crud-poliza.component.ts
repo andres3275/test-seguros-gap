@@ -10,6 +10,7 @@ import {
 } from "src/app/shared/constants/valores-limites";
 import * as moment from "moment";
 import Swal from "sweetalert2";
+import { EstadoPoliza } from "src/app/shared/interfaces/estado-poliza.model";
 
 @Component({
   selector: "app-crud-poliza",
@@ -17,12 +18,31 @@ import Swal from "sweetalert2";
   styleUrls: ["./crud-poliza.component.css"]
 })
 export class CrudPolizaComponent implements OnInit {
-  @Input() public poliza: Poliza;
+  private _poliza: Poliza;
   @Input() public tiposRiesgo: TipoRiesgo[];
   @Input() public tiposCubrimiento: TipoCubrimiento[];
   @Input() public clientes: Usuario[];
+  @Input() public esEditarPoliza: boolean;
+  @Input() public estadosPoliza: EstadoPoliza[];
   @Output() salirModalCrudPolizaEmmiter = new EventEmitter();
   @Output() guardarPolizaEmmiter = new EventEmitter();
+
+  @Input() public set poliza(value: Poliza) {
+    this._poliza = value;
+    if (
+      value &&
+      value.fechaInicioVigencia &&
+      value.fechaInicioVigencia !== ""
+    ) {
+      this._poliza.fechaInicioVigencia = this.aplicarFormatoFecha(
+        value.fechaInicioVigencia
+      );
+    }
+  }
+
+  public get poliza(): Poliza {
+    return this._poliza;
+  }
 
   constructor() {
     this.inicializarVariables();
@@ -40,6 +60,12 @@ export class CrudPolizaComponent implements OnInit {
     } else {
       Swal.fire("Advertencia", mensajeError, "warning");
     }
+  }
+
+  private aplicarFormatoFecha(fecha: string): string {
+    return moment(fecha)
+      .format("YYYY-MM-DD")
+      .toString();
   }
 
   private validarCondicionesGuardarPoliza(fechaInicioVigencia: any): string {

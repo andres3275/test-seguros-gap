@@ -13,7 +13,9 @@
       [data]="polizas"
       [tableConfiguration]="tablaPolizasConfiguration"
       (polizaSeleccionadaEmmiter)="onPolizaSeleccionada($event)"
-      (editarPolizaEmmiter)="onEditarPolizaSeleccionada($event)"
+      (editarPolizaEmmiter)="
+        onEditarPolizaSeleccionada($event, plantillaCrudPoliza)
+      "
       (eliminarPolizaEmmiter)="onEliminarPolizaSeleccionada($event)"
     ></app-grid-poliza>
   </div>
@@ -70,6 +72,9 @@
       [clientes]="clientes"
       [tiposRiesgo]="tiposRiesgo"
       [tiposCubrimiento]="tiposCubrimiento"
+      [poliza]="polizaSeleccionadaEditar"
+      [esEditarPoliza]="esEditarPoliza"
+      [estadosPoliza]="estadosPoliza"
     ></app-crud-poliza>
   </div>
 </ng-template>
