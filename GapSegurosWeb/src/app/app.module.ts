@@ -7,10 +7,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginModule } from './modules/login/login.module';
 import { PeticionSalidaCabeceraInterceptor } from './shared/utils/peticion-salida-cabecera.httpinterceptor';
 import { AlmacenamientoLocalService } from './shared/services/almacenamiento-local.service';
+import { PaginaNoEncontradaComponent } from './modules/pagina-no-encontrada/pagina-no-encontrada.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PaginaNoEncontradaComponent
   ],
   imports: [
     BrowserModule,

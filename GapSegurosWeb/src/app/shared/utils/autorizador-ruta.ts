@@ -11,11 +11,32 @@ export class AutorizadorRuta implements CanActivate {
         private _almacenamientoLocalService: AlmacenamientoLocalService) { }
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        if (this._almacenamientoLocalService.existeInformacion(LlavesAlmacenamientoLocal.token)) {
-            return true;
+        switch ((state.url).replace('/', '')) {
+            case RutasAplicacion.administrarPoliza: {
+                if (this._almacenamientoLocalService.existeInformacion(LlavesAlmacenamientoLocal.token)) {
+                    return true;
+                }
+                this._router.navigate([RutasAplicacion.login]);
+                return false;
+            }
+            case RutasAplicacion.login: {
+                if (!this._almacenamientoLocalService.existeInformacion(LlavesAlmacenamientoLocal.token)) {
+                    return true;
+                }
+                this._router.navigate([RutasAplicacion.administrarPoliza]);
+                return false;
+            }
+            case '': {
+                if (!this._almacenamientoLocalService.existeInformacion(LlavesAlmacenamientoLocal.token)) {
+                    return true;
+                }
+                this._router.navigate([RutasAplicacion.administrarPoliza]);
+                return false;
+            }
+            default: {
+                return false;
+            }
         }
-        this._router.navigate([RutasAplicacion.login]);
-        return false;
     }
 
 }
