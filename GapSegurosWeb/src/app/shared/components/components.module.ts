@@ -12,6 +12,7 @@ import {
 import { DateControlComponent } from "./date-control/date-control.component";
 import { FormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { MenuCabeceraComponent } from './menu-cabecera/menu-cabecera.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     FormsModule,
     NgbModule
   ],
-  declarations: [TableComponent, DateControlComponent],
+  declarations: [TableComponent, DateControlComponent, MenuCabeceraComponent],
   exports: [
     TableComponent,
     MatTableModule,
@@ -34,7 +35,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     MatPaginatorModule,
     MatSortModule,
     BrowserAnimationsModule,
-    DateControlComponent
+    DateControlComponent,
+    MenuCabeceraComponent
   ],
   entryComponents: [],
   providers: []
