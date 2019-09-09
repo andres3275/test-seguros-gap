@@ -1,0 +1,54 @@
+<h2>Login</h2>
+<div class="row">
+  <div class="form-group col-lg-4 col-md-4 col-sm-12">
+    <label for="username">Username</label>
+    <input
+      [(ngModel)]="usuario.nombreUsuario"
+      #nombreUsuario="ngModel"
+      type="text"
+      class="form-control"
+      required
+      maxlength="49"
+    />
+    <div *ngIf="nombreUsuario.errors?.required" class="invalid-feedback">
+      Este campo es obligatorio
+    </div>
+    <div *ngIf="nombreUsuario.errors?.maxlength" class="invalid-feedback">
+      La longitud máxima de este campo no puede exceder 49 carácteres.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-lg-4 col-md-4 col-sm-12">
+    <label for="password">Password</label>
+    <input
+      [(ngModel)]="usuario.contrasenia"
+      #contrasenia="ngModel"
+      type="password"
+      class="form-control"
+      required
+      maxlength="49"
+    />
+    <div *ngIf="contrasenia.errors?.required" class="invalid-feedback">
+      Este campo es obligatorio
+    </div>
+    <div *ngIf="contrasenia.errors?.maxlength" class="invalid-feedback">
+      La longitud máxima de este campo no puede exceder 49 carácteres.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="form-group col-lg-4 col-md-4 col-sm-12">
+    <button
+      [disabled]="
+        nombreUsuario.errors?.required ||
+        nombreUsuario.errors?.maxlength ||
+        contrasenia.errors?.required ||
+        contrasenia.errors?.maxlength
+      "
+      class="btn btn-primary btn-block"
+    >
+      Login
+    </button>
+  </div>
+</div>
