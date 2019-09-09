@@ -22,6 +22,10 @@ import { TipoRiesgo } from "src/app/shared/interfaces/tipo-riesgo.model";
 import { TipoCubrimiento } from "src/app/shared/interfaces/tipo-cubrimiento.model";
 import { LIMITEEXCEDIDOCOBERTURARIESGOALTO } from "src/app/shared/constants/excepciones-negocio";
 import { EstadoPoliza } from "src/app/shared/interfaces/estado-poliza.model";
+import { AlmacenamientoLocalService } from "src/app/shared/services/almacenamiento-local.service";
+import { Router } from "@angular/router";
+import { RutasAplicacion } from "src/app/shared/constants/rutas-aplicacion.enum";
+import { LlavesAlmacenamientoLocal } from "src/app/shared/constants/llaves-almacenamiento-local.enum";
 
 @Component({
   selector: "app-administracion-poliza",
@@ -57,7 +61,9 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     private _tipoCubrimientoService: TipoCubrimientoService,
     private _estadoPolizaService: EstadoPolizaService,
     private _polizaService: AdministracionPolizaService,
-    private modalService: NgbModal
+    private _modalService: NgbModal,
+    private _almacenamientoLocalService: AlmacenamientoLocalService,
+    private _router: Router
   ) {
     this.configurarTablas();
     this.inicializarVariables();
@@ -125,8 +131,8 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
       !this._clienteSeleccionado || !this._clienteSeleccionado.id
         ? "Debe seleccionar el cliente primero."
         : !this._polizasSeleccionadas || this._polizasSeleccionadas.length === 0
-          ? "Debe seleccionar al menos una poliza."
-          : undefined;
+        ? "Debe seleccionar al menos una poliza."
+        : undefined;
     if (!mensajeError) {
       this.AsignarClientePolizas();
       this.guardarCambiosPolizas();
@@ -157,6 +163,13 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     this._crudPolizaModal.close();
   }
 
+  public onCerrarSesion(): void {
+    this._almacenamientoLocalService.eliminarInformacion(
+      LlavesAlmacenamientoLocal.token
+    );
+    this._router.navigate([RutasAplicacion.login]);
+  }
+
   private resetearVariablesEditarPoliza(): void {
     this.polizaSeleccionadaEditar = {
       cobertura: undefined,
@@ -175,7 +188,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
   }
 
   private abrirModalCrudPoliza(plantillaCrudPoliza: any): void {
-    this._crudPolizaModal = this.modalService.open(plantillaCrudPoliza, {
+    this._crudPolizaModal = this._modalService.open(plantillaCrudPoliza, {
       size: "lg",
       backdrop: false,
       backdropClass: "dark-modal"
@@ -327,7 +340,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
     this.consultarPolizas()
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
-        () => { },
+        () => {},
         (error: any) => {
           this._existeErrorConsultaPolizas = true;
           this.procesarError(error);

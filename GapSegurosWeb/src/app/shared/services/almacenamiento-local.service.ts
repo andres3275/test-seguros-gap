@@ -20,4 +20,8 @@ export class AlmacenamientoLocalService {
     return informacion && informacion !== '';
   }
 
+  public eliminarInformacion(nombreLlave: string):void{
+    localStorage.removeItem(nombreLlave);
+  }
+
 }
