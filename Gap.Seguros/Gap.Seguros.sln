@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.Infrastructure"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.UnitTests", "Gap.Seguros.UnitTests\Gap.Seguros.UnitTests.csproj", "{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gap.Serguros.IntegrationTests", "Gap.Serguros.IntegrationTests\Gap.Serguros.IntegrationTests.csproj", "{7A4F0F7A-690E-47FD-8115-30DC771299F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A4F0F7A-690E-47FD-8115-30DC771299F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A4F0F7A-690E-47FD-8115-30DC771299F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A4F0F7A-690E-47FD-8115-30DC771299F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A4F0F7A-690E-47FD-8115-30DC771299F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +56,7 @@ Global
 		{B58EDCED-22E6-4CEC-A5E2-E61DF6FECF46} = {B08758EF-F26B-436E-841E-83AE8DADACBE}
 		{1A150A21-2573-4DA9-8281-D00A245FD3EC} = {F19508D9-2478-4D46-A2C7-711481F360C0}
 		{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5} = {2B0B6C92-F560-43A5-A18D-3D22498B42D3}
+		{7A4F0F7A-690E-47FD-8115-30DC771299F8} = {2B0B6C92-F560-43A5-A18D-3D22498B42D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F47948E4-B475-4B41-80C6-E1FE59CDCCF3}
