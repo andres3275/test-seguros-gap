@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Gap.Seguros.API.Controllers
     /// Endpoints de usuario
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TipoRiesgoController : ControllerBase

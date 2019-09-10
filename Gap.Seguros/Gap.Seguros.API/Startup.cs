@@ -1,17 +1,20 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain.Repository;
 using Gap.Seguros.Domain.Services;
 using Gap.Seguros.Domain.utils;
 using Gap.Seguros.Infrastructure.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Gap.Seguros.API
@@ -29,10 +32,34 @@ namespace Gap.Seguros.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //Politicas CORS
             services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
                                                             .AllowAnyMethod()
                                                              .AllowAnyHeader()));
-            services.Configure<Configuracion>(Configuration.GetSection("utils"));
+            //Parametros de configuracion de appsettings.json
+            var configurtionUtilsSection = Configuration.GetSection("utils");
+            services.Configure<Configuracion>(configurtionUtilsSection);
+            //Autorizacion por token jwt
+            var configuracion = configurtionUtilsSection.Get<Configuracion>();
+            var llaveCifrado = Encoding.ASCII.GetBytes(configuracion.LlaveCifrado);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(llaveCifrado),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            //Inyeccion de dependencias
             services.AddScoped<IGestionPolizaService, GestionPolizaService>();
             services.AddScoped<IPolizaRepository, PolizaRepository>();
             services.AddScoped<IPolizaService, PolizaService>();
@@ -45,6 +72,7 @@ namespace Gap.Seguros.API
             services.AddScoped<IEstadoPolizaRepository, EstadoPolizaRepository>();
             services.AddScoped<IGestionEstadoPolizaService, GestionEstadoPolizaService>();
             services.AddDbContext<GapSegurosContext>(options => options.UseSqlServer(Configuration.GetConnectionString("sqlServerConnectionString")));
+            //Configuracion Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
@@ -73,6 +101,7 @@ namespace Gap.Seguros.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Seguros GAP Api");
                 c.RoutePrefix = string.Empty;
             });
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

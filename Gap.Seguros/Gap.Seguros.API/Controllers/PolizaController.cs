@@ -7,6 +7,7 @@ using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain;
 using Gap.Seguros.Domain.Dto;
 using Gap.Seguros.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Gap.Seguros.API.Controllers
     /// Endpoints REST para Poliza
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PolizaController : ControllerBase

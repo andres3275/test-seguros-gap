@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Gap.Seguros.API.Services;
 using Gap.Seguros.Domain.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace Gap.Seguros.API.Controllers
     /// Endpoints de usuario
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
@@ -58,6 +60,7 @@ namespace Gap.Seguros.API.Controllers
         /// </summary>
         /// <param name="usuario">The usuario.</param>
         /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("autenticar")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

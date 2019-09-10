@@ -304,6 +304,7 @@ export class AdministracionPolizaComponent implements OnInit, OnDestroy {
         () => {
           this.removerPolizaEliminadaTabla(id);
           ocultarLoading();
+          Swal.fire("Exito", "La Póliza ha sido eliminada", "success");
         },
         (error: any) => {
           this._existeErrorEliminarPoliza = true;
