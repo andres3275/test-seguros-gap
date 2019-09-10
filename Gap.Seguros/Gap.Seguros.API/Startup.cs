@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -80,6 +81,17 @@ namespace Gap.Seguros.API
                     Version = "v1",
                     Title = "Seguros GAP Api",
                     Description = "Prueba Seguros GAP"
+                });
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                {
+                    Description = "JWT Authorization header {token}",
+                    Name = "Authorization",
+                    In = "header",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                {
+                    { "Bearer", new string[] { } }
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
