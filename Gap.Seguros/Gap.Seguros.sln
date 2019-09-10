@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29102.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.API", "Gap.Seguros.API\Gap.Seguros.API.csproj", "{C54627C4-D57F-4383-A6F2-151521C9B74B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplication", "Aplication", "{5CD3EA32-5942-4D94-9E0A-C13E2632F90D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{5CD3EA32-5942-4D94-9E0A-C13E2632F90D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{B08758EF-F26B-436E-841E-83AE8DADACBE}"
 EndProject
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.Domain", "Gap.S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.Infrastructure", "Gap.Seguros.Infrastructure\Gap.Seguros.Infrastructure.csproj", "{1A150A21-2573-4DA9-8281-D00A245FD3EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gap.Seguros.UnitTests", "Gap.Seguros.UnitTests\Gap.Seguros.UnitTests.csproj", "{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gap.Seguros.UnitTests", "Gap.Seguros.UnitTests\Gap.Seguros.UnitTests.csproj", "{59552FDC-0F66-4E71-AA01-2AC8B22FFCA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
