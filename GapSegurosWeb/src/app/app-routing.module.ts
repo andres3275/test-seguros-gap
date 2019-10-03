@@ -1,31 +1,31 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './modules/login/login.component';
 import { RutasAplicacion } from './shared/constants/rutas-aplicacion.enum';
-import { AdministracionPolizaComponent } from './modules/administracion-poliza/administracion-poliza.component';
 import { AutorizadorRuta } from './shared/utils/autorizador-ruta';
-import { PaginaNoEncontradaComponent } from './modules/pagina-no-encontrada/pagina-no-encontrada.component';
+import { PaginaNoEncontradaModule } from './modules/pagina-no-encontrada/pagina-no-encontrada.module';
+import { LoginModule } from './modules/login/login.module';
+import { AdministracionPolizaModule } from './modules/administracion-poliza/administracion-poliza.module';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent,
+    loadChildren: () => import('./modules/login/login.module').then(m => LoginModule),
     canActivate: [AutorizadorRuta]
   },
   {
     path: RutasAplicacion.login,
-    component: LoginComponent,
+    loadChildren: () => import('./modules/login/login.module').then(m => LoginModule),
     canActivate: [AutorizadorRuta]
   },
   {
     path: RutasAplicacion.administrarPoliza,
-    component: AdministracionPolizaComponent,
+    loadChildren: () => import('./modules/administracion-poliza/administracion-poliza.module').then(m => AdministracionPolizaModule),
     canActivate: [AutorizadorRuta]
   },
   {
     path: '**',
-    component: PaginaNoEncontradaComponent
+    loadChildren: () => import('./modules/pagina-no-encontrada/pagina-no-encontrada.module').then(m => PaginaNoEncontradaModule)
   }
 ];
 

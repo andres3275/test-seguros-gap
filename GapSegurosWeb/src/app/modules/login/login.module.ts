@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import { AutenticacionService } from './autenticacion.service';
+import { LoginRoutingModule } from './login-routing.module';
 
 
 
@@ -10,9 +11,9 @@ import { AutenticacionService } from './autenticacion.service';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    LoginRoutingModule
   ],
-  exports: [LoginComponent],
   providers: [AutenticacionService]
 })
 export class LoginModule { }

@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { TableComponent } from "./table/table.component";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {
   MatTableModule,
   MatInputModule,
@@ -16,13 +14,11 @@ import { MenuCabeceraComponent } from './menu-cabecera/menu-cabecera.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     MatTableModule,
     MatInputModule,
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
-    BrowserAnimationsModule,
     FormsModule,
     NgbModule
   ],
@@ -34,7 +30,6 @@ import { MenuCabeceraComponent } from './menu-cabecera/menu-cabecera.component';
     MatFormFieldModule,
     MatPaginatorModule,
     MatSortModule,
-    BrowserAnimationsModule,
     DateControlComponent,
     MenuCabeceraComponent
   ],

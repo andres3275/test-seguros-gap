@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
 import { AdministracionPolizaService } from "./administracion-poliza.service";
 import { UsuarioService } from "src/app/shared/services/usuario.service";
 import { TipoRiesgoService } from "src/app/shared/services/tipo-riesgo.service";
@@ -13,11 +12,12 @@ import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CrudPolizaComponent } from './crud-poliza/crud-poliza.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdministracionPolizaRoutingModule } from './administrador-poliza-routing.module';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [AdministracionPolizaComponent, GridPolizaComponent, SelectorClienteComponent, CrudPolizaComponent],
-  exports: [AdministracionPolizaComponent],
-  imports: [CommonModule, SharedModule,FormsModule,NgSelectModule,NgbModule],
+  imports: [CommonModule,SharedModule,FormsModule,NgSelectModule,NgbModule,AdministracionPolizaRoutingModule],
   providers: [
     AdministracionPolizaService,
     UsuarioService,
