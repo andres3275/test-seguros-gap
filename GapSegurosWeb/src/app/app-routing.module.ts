@@ -1,17 +1,21 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadingStrategy } from '@angular/router';
 import { RutasAplicacion } from './shared/constants/rutas-aplicacion.enum';
 import { AutorizadorRuta } from './shared/utils/autorizador-ruta';
 import { PaginaNoEncontradaModule } from './modules/pagina-no-encontrada/pagina-no-encontrada.module';
 import { LoginModule } from './modules/login/login.module';
 import { AdministracionPolizaModule } from './modules/administracion-poliza/administracion-poliza.module';
+import { CustomPreloader } from './shared/utils/custom-preloader';
 
 
 const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./modules/login/login.module').then(m => LoginModule),
-    canActivate: [AutorizadorRuta]
+    canActivate: [AutorizadorRuta],
+    data:{
+      preload:true
+    }
   },
   {
     path: RutasAplicacion.login,
@@ -30,7 +34,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: CustomPreloader})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

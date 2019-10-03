@@ -5,7 +5,7 @@
   [(ngModel)]="clienteSeleccionado.id"
   placeholder="Seleccione el Cliente"
 >
-  <ng-option *ngFor="let cliente of clientes" [value]="cliente.id">{{
+  <ng-option *ngFor="let cliente of clientes;trackBy: obtenerIdCliente" [value]="cliente.id">{{
     cliente.nombre
   }}</ng-option>
 </ng-select>

@@ -28,4 +28,8 @@ export class SelectorClienteComponent {
   public onClienteSeleccionado(): void {
     this.clienteSeleccionadoEmitter.emit(this.clienteSeleccionado);
   }
+
+  public obtenerIdCliente(index: number, cliente: Usuario): number {
+    return cliente.id;
+  }
 }
