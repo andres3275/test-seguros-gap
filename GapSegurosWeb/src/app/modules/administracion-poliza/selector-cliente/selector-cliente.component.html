@@ -1,11 +1,14 @@
 <label>Cliente</label>
 <ng-select
   *ngIf="clientes"
+  [formControl]="clientesFormControl"
   (change)="onClienteSeleccionado()"
-  [(ngModel)]="clienteSeleccionado.id"
   placeholder="Seleccione el Cliente"
 >
   <ng-option *ngFor="let cliente of clientes" [value]="cliente.id">{{
     cliente.nombre
   }}</ng-option>
 </ng-select>
+<div *ngIf="this.clientesFormControl.errors?.required" class="invalid-feedback">
+  Este campo es obligatorio
+</div>

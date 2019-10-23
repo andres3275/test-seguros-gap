@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import { AutenticacionService } from './autenticacion.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,7 +11,8 @@ import { AutenticacionService } from './autenticacion.service';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [LoginComponent],
   providers: [AutenticacionService]

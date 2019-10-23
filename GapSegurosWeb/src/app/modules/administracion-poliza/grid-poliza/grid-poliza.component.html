@@ -91,13 +91,19 @@
       <ng-container matColumnDef="Operaciones">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Operaciones</th>
         <td mat-cell *matCellDef="let element">
-          <i (click)="onEditarPoliza(element)"
+          <i
+            (click)="onEditarPoliza(element)"
             class="fa fa-pencil-square fa-2x"
             aria-hidden="true"
             placement="top"
           ></i
           >&nbsp;
-          <i (click)="onEliminarPoliza(element)" class="fa fa-trash fa-2x" aria-hidden="true" placement="top"></i
+          <i
+            (click)="onEliminarPoliza(element)"
+            class="fa fa-trash fa-2x"
+            aria-hidden="true"
+            placement="top"
+          ></i
           >&nbsp;
         </td>
       </ng-container>

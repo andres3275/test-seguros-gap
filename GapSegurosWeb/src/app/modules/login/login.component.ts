@@ -5,12 +5,16 @@ import { AlmacenamientoLocalService } from 'src/app/shared/services/almacenamien
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import * as HttpStatus from "http-status-codes";
+import * as HttpStatus from 'http-status-codes';
 import Swal from 'sweetalert2';
 import { LlavesAlmacenamientoLocal } from 'src/app/shared/constants/llaves-almacenamiento-local.enum';
 import { RutasAplicacion } from 'src/app/shared/constants/rutas-aplicacion.enum';
-import { mostrarLoading, ocultarLoading } from 'src/app/shared/utils/utilidades';
+import {
+  mostrarLoading,
+  ocultarLoading
+} from 'src/app/shared/utils/utilidades';
 import * as CryptoJS from 'crypto-js';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -18,15 +22,16 @@ import * as CryptoJS from 'crypto-js';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnDestroy {
-  public usuario: Usuario;
+  public usuarioForm: FormGroup;
   private _subscripcionFinalizada$ = new Subject();
 
-  constructor(private _autenticacionService: AutenticacionService,
+  constructor(
+    private _autenticacionService: AutenticacionService,
     private _almacenamientoLocalService: AlmacenamientoLocalService,
-    private _router: Router) {
-    if (!this.usuario) {
-      this.inicializarVariables();
-    }
+    private _router: Router,
+    private _formBuilder: FormBuilder
+  ) {
+    this.inicializarVariables();
   }
 
   public ngOnDestroy(): void {
@@ -39,7 +44,7 @@ export class LoginComponent implements OnDestroy {
   }
 
   private aplicarMd5HashContrasenia(): string {
-    return CryptoJS.MD5(this.usuario.contrasenia).toString();
+    return CryptoJS.MD5(this.usuarioForm.controls.contrasenia.value).toString();
   }
 
   private autenticar(): void {
@@ -49,14 +54,18 @@ export class LoginComponent implements OnDestroy {
       id: undefined,
       nombre: undefined,
       contrasenia: this.aplicarMd5HashContrasenia(),
-      nombreUsuario: this.usuario.nombreUsuario
+      nombreUsuario: this.usuarioForm.controls.nombreUsuario.value
     };
-    this._autenticacionService.autenticar(usuario)
+    this._autenticacionService
+      .autenticar(usuario)
       .pipe(takeUntil(this._subscripcionFinalizada$))
       .subscribe(
         (respuesta: any) => {
           ocultarLoading();
-          this._almacenamientoLocalService.almacenarInformacion(LlavesAlmacenamientoLocal.token, respuesta.token);
+          this._almacenamientoLocalService.almacenarInformacion(
+            LlavesAlmacenamientoLocal.token,
+            respuesta.token
+          );
           this._router.navigate([RutasAplicacion.administrarPoliza]);
         },
         (error: any) => {
@@ -71,17 +80,16 @@ export class LoginComponent implements OnDestroy {
 
   private procesarError(error: any): void {
     let mensaje: string;
-    switch (error.status) {
-      case HttpStatus.UNAUTHORIZED: {
-        mensaje = 'Usuario o contraseña Invalidos.';
-        break;
-      }
+    if (error.status === HttpStatus.UNAUTHORIZED) {
+      mensaje = 'Usuario o contraseña Invalidos.';
     }
-    Swal.fire("Advertencia", mensaje, "warning");
+    Swal.fire('Advertencia', mensaje, 'warning');
   }
 
   private inicializarVariables(): void {
-    this.usuario = { cedula: undefined, id: undefined, nombre: undefined };
+    this.usuarioForm = this._formBuilder.group({
+      nombreUsuario: ['', [Validators.required, Validators.maxLength(49)]],
+      contrasenia: ['', [Validators.required, Validators.maxLength(49)]]
+    });
   }
-
 }
