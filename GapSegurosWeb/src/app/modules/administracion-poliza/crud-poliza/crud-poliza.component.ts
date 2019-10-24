@@ -1,21 +1,21 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Poliza } from "src/app/shared/interfaces/poliza.model";
-import { TipoRiesgo } from "src/app/shared/interfaces/tipo-riesgo.model";
-import { TipoCubrimiento } from "src/app/shared/interfaces/tipo-cubrimiento.model";
-import { Usuario } from "src/app/shared/interfaces/usuario.model";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Poliza } from 'src/app/shared/interfaces/poliza.model';
+import { TipoRiesgo } from 'src/app/shared/interfaces/tipo-riesgo.model';
+import { TipoCubrimiento } from 'src/app/shared/interfaces/tipo-cubrimiento.model';
+import { Usuario } from 'src/app/shared/interfaces/usuario.model';
 import {
   LimitesPorcentajesCobertura,
   LimitesDuracionCobertura,
   LimitesPrecioPoliza
-} from "src/app/shared/constants/valores-limites";
-import * as moment from "moment";
-import Swal from "sweetalert2";
-import { EstadoPoliza } from "src/app/shared/interfaces/estado-poliza.model";
+} from 'src/app/shared/constants/valores-limites';
+import * as moment from 'moment';
+import Swal from 'sweetalert2';
+import { EstadoPoliza } from 'src/app/shared/interfaces/estado-poliza.model';
 
 @Component({
-  selector: "app-crud-poliza",
-  templateUrl: "./crud-poliza.component.html",
-  styleUrls: ["./crud-poliza.component.css"]
+  selector: 'app-crud-poliza',
+  templateUrl: './crud-poliza.component.html',
+  styleUrls: ['./crud-poliza.component.css']
 })
 export class CrudPolizaComponent implements OnInit {
   private _poliza: Poliza;
@@ -32,7 +32,7 @@ export class CrudPolizaComponent implements OnInit {
     if (
       value &&
       value.fechaInicioVigencia &&
-      value.fechaInicioVigencia !== ""
+      value.fechaInicioVigencia !== ''
     ) {
       this._poliza.fechaInicioVigencia = this.aplicarFormatoFecha(
         value.fechaInicioVigencia
@@ -58,13 +58,17 @@ export class CrudPolizaComponent implements OnInit {
       this.poliza.fechaInicioVigencia = fechaInicioVigencia.inputDate;
       this.guardarPolizaEmmiter.emit(this.poliza);
     } else {
-      Swal.fire("Advertencia", mensajeError, "warning");
+      Swal.fire('Advertencia', mensajeError, 'warning');
     }
+  }
+
+  public onClienteSeleccionado(cliente: Usuario ): void {
+    this._poliza.usuarioId = cliente.id;
   }
 
   private aplicarFormatoFecha(fecha: string): string {
     return moment(fecha)
-      .format("YYYY-MM-DD")
+      .format('YYYY-MM-DD')
       .toString();
   }
 
@@ -74,25 +78,25 @@ export class CrudPolizaComponent implements OnInit {
         LimitesPorcentajesCobertura.porcentajeCoberturaMaximo ||
       this.poliza.cobertura <
         LimitesPorcentajesCobertura.porcentejeCoberturaMinimo
-        ? "Valor de Cobertura invalido, debe estar entre 0 y 100"
+        ? 'Valor de Cobertura invalido, debe estar entre 0 y 100'
         : this.poliza.duracionMesesCobertura >
             LimitesDuracionCobertura.duracionMaximaCobertura ||
           this.poliza.duracionMesesCobertura <
             LimitesDuracionCobertura.duracionMinimaCobertura
-        ? "Duración de cubertura invalido, debe estar entre 0 y 10000"
+        ? 'Duración de cubertura invalido, debe estar entre 0 y 10000'
         : this.poliza.precio > LimitesPrecioPoliza.precioPolizaMaximo ||
           this.poliza.precio < LimitesPrecioPoliza.precioPolizaMinimo
-        ? "Precio invalido, debe estar entre 0 y 999999"
+        ? 'Precio invalido, debe estar entre 0 y 999999'
         : !this.poliza.usuarioId
-        ? "Debe seleccionar un cliente a quien asignar la póliza"
+        ? 'Debe seleccionar un cliente a quien asignar la póliza'
         : !this.poliza.tipoRiesgoId
-        ? "Debe seleccionar un tipo de Riesgo"
+        ? 'Debe seleccionar un tipo de Riesgo'
         : !this.poliza.tipoCubrimientoId
-        ? "Debe seleccionar un tipo de Cubrimiento"
+        ? 'Debe seleccionar un tipo de Cubrimiento'
         : !fechaInicioVigencia ||
           !fechaInicioVigencia.inputDate ||
-          fechaInicioVigencia.inputDate === ""
-        ? "Debe seleccionar una fecha de inicio de vigencia."
+          fechaInicioVigencia.inputDate === ''
+        ? 'Debe seleccionar una fecha de inicio de vigencia.'
         : undefined;
     return mensajeError;
   }

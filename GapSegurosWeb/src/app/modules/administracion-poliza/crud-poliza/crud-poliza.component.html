@@ -97,16 +97,11 @@
   </div>
   <div class="col-md-6 col-sm-12">
     <fieldset class="form-group">
-      <label>Cliente</label>
-      <ng-select
-        *ngIf="clientes"
-        [(ngModel)]="poliza.usuarioId"
-        placeholder="Seleccione el Cliente"
-      >
-        <ng-option *ngFor="let cliente of clientes" [value]="cliente.id">{{
-          cliente.nombre
-        }}</ng-option>
-      </ng-select>
+      <app-selector-cliente
+      (clienteSeleccionadoEmitter)="onClienteSeleccionado($event)"
+      [clientes]="clientes"
+      [clienteSeleccionadoId]="poliza?.usuarioId"
+    ></app-selector-cliente>
     </fieldset>
   </div>
 </div>

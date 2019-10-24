@@ -9,7 +9,6 @@ import { FormControl, Validators } from '@angular/forms';
 })
 export class SelectorClienteComponent {
   @Input() public clientes: Usuario[];
-  @Input() public clienteSeleccionado: Usuario;
   public clientesFormControl: FormControl;
   @Output() clienteSeleccionadoEmitter = new EventEmitter();
 
@@ -17,14 +16,18 @@ export class SelectorClienteComponent {
     this.inicializarVariables();
   }
 
-  private inicializarVariables(): void {
-    this.clientesFormControl = new FormControl('', Validators.required);
-    this.asignarClienteSeleccionado();
+  @Input()
+  public set clienteSeleccionadoId(value: number) {
+    this.asignarClienteSeleccionado(value);
   }
 
-  private asignarClienteSeleccionado(): void {
-    if (this.clienteSeleccionado && this.clienteSeleccionado.id) {
-      this.clientesFormControl.setValue(this.clienteSeleccionado.id);
+  private inicializarVariables(): void {
+    this.clientesFormControl = new FormControl('', Validators.required);
+  }
+
+  private asignarClienteSeleccionado(clienteId: number): void {
+    if (clienteId) {
+      this.clientesFormControl.setValue(clienteId);
     }
   }
 
