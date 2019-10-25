@@ -37,8 +37,7 @@
       <button
         (click)="onLogin()"
         [disabled]="
-          this.usuarioForm.controls.contrasenia.errors ||
-          this.usuarioForm.controls.nombreUsuario.errors
+          !this.usuarioForm.valid
         "
         class="btn btn-primary btn-block"
       >

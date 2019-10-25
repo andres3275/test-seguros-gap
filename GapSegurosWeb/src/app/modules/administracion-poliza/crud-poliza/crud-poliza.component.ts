@@ -11,6 +11,7 @@ import {
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
 import { EstadoPoliza } from 'src/app/shared/interfaces/estado-poliza.model';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-crud-poliza',
@@ -19,6 +20,7 @@ import { EstadoPoliza } from 'src/app/shared/interfaces/estado-poliza.model';
 })
 export class CrudPolizaComponent implements OnInit {
   private _poliza: Poliza;
+  public polizaForm: FormGroup;
   @Input() public tiposRiesgo: TipoRiesgo[];
   @Input() public tiposCubrimiento: TipoCubrimiento[];
   @Input() public clientes: Usuario[];
@@ -29,14 +31,13 @@ export class CrudPolizaComponent implements OnInit {
 
   @Input() public set poliza(value: Poliza) {
     this._poliza = value;
-    if (
-      value &&
-      value.fechaInicioVigencia &&
-      value.fechaInicioVigencia !== ''
-    ) {
+    if (this._poliza) {
       this._poliza.fechaInicioVigencia = this.aplicarFormatoFecha(
-        value.fechaInicioVigencia
+        this._poliza.fechaInicioVigencia
       );
+      if (this.polizaForm) {
+        this.asignarDatosPolizaFormulario();
+      }
     }
   }
 
@@ -44,7 +45,7 @@ export class CrudPolizaComponent implements OnInit {
     return this._poliza;
   }
 
-  constructor() {
+  constructor(private _formBuilder: FormBuilder) {
     this.inicializarVariables();
   }
 
@@ -55,15 +56,40 @@ export class CrudPolizaComponent implements OnInit {
       fechaInicioVigencia
     );
     if (!mensajeError) {
-      this.poliza.fechaInicioVigencia = fechaInicioVigencia.inputDate;
-      this.guardarPolizaEmmiter.emit(this.poliza);
+      const poliza = {
+        cobertura: this.polizaForm.controls.cobertura.value,
+        descripcion: this.polizaForm.controls.descripcionPoliza.value,
+        duracionMesesCobertura: this.polizaForm.controls.duracionMesesCobertura.value,
+        tipoRiesgoId: this.polizaForm.controls.tipoRiesgo.value,
+        estadoPolizaId: this.polizaForm.controls.estadoPoliza.value,
+        fechaInicioVigencia: fechaInicioVigencia.inputDate,
+        id: this._poliza.id,
+        nombre: this.polizaForm.controls.nombrePoliza.value,
+        precio: this.polizaForm.controls.precioPoliza.value,
+        tipoCubrimientoId: this.polizaForm.controls.tipoCubrimiento.value,
+        usuarioId: this._poliza.usuarioId
+      };
+      this.guardarPolizaEmmiter.emit(poliza);
     } else {
       Swal.fire('Advertencia', mensajeError, 'warning');
     }
   }
 
-  public onClienteSeleccionado(cliente: Usuario ): void {
+  public onClienteSeleccionado(cliente: Usuario): void {
     this._poliza.usuarioId = cliente.id;
+  }
+
+  private asignarDatosPolizaFormulario(): void {
+    this.polizaForm.patchValue({
+      nombrePoliza: this._poliza.nombre,
+      descripcionPoliza: this._poliza.descripcion,
+      cobertura: this._poliza.cobertura,
+      duracionMesesCobertura: this._poliza.duracionMesesCobertura,
+      tipoRiesgo: this._poliza.tipoRiesgoId,
+      tipoCubrimiento: this._poliza.tipoCubrimientoId,
+      precioPoliza: this._poliza.precio,
+      estadoPoliza: this._poliza.estadoPolizaId
+    });
   }
 
   private aplicarFormatoFecha(fecha: string): string {
@@ -74,28 +100,9 @@ export class CrudPolizaComponent implements OnInit {
 
   private validarCondicionesGuardarPoliza(fechaInicioVigencia: any): string {
     const mensajeError =
-      this.poliza.cobertura >
-        LimitesPorcentajesCobertura.porcentajeCoberturaMaximo ||
-      this.poliza.cobertura <
-        LimitesPorcentajesCobertura.porcentejeCoberturaMinimo
-        ? 'Valor de Cobertura invalido, debe estar entre 0 y 100'
-        : this.poliza.duracionMesesCobertura >
-            LimitesDuracionCobertura.duracionMaximaCobertura ||
-          this.poliza.duracionMesesCobertura <
-            LimitesDuracionCobertura.duracionMinimaCobertura
-        ? 'Duración de cubertura invalido, debe estar entre 0 y 10000'
-        : this.poliza.precio > LimitesPrecioPoliza.precioPolizaMaximo ||
-          this.poliza.precio < LimitesPrecioPoliza.precioPolizaMinimo
-        ? 'Precio invalido, debe estar entre 0 y 999999'
-        : !this.poliza.usuarioId
-        ? 'Debe seleccionar un cliente a quien asignar la póliza'
-        : !this.poliza.tipoRiesgoId
-        ? 'Debe seleccionar un tipo de Riesgo'
-        : !this.poliza.tipoCubrimientoId
-        ? 'Debe seleccionar un tipo de Cubrimiento'
-        : !fechaInicioVigencia ||
-          !fechaInicioVigencia.inputDate ||
-          fechaInicioVigencia.inputDate === ''
+      !fechaInicioVigencia ||
+      !fechaInicioVigencia.inputDate ||
+      fechaInicioVigencia.inputDate === ''
         ? 'Debe seleccionar una fecha de inicio de vigencia.'
         : undefined;
     return mensajeError;
@@ -119,5 +126,24 @@ export class CrudPolizaComponent implements OnInit {
       tipoCubrimientoId: undefined,
       usuarioId: undefined
     };
+    this.polizaForm = this._formBuilder.group({
+      nombrePoliza: ['', [Validators.required, Validators.maxLength(40)]],
+      descripcionPoliza: ['', Validators.maxLength(140)],
+      cobertura: [
+        '',
+        [Validators.required, Validators.max(100), Validators.min(0)]
+      ],
+      duracionMesesCobertura: [
+        '',
+        [Validators.required, Validators.max(10000), Validators.min(1)]
+      ],
+      tipoRiesgo: ['', Validators.required],
+      tipoCubrimiento: ['', Validators.required],
+      precioPoliza: [
+        '',
+        [Validators.required, Validators.max(999999), Validators.min(0)]
+      ],
+      estadoPoliza: ['', Validators.required]
+    });
   }
 }
