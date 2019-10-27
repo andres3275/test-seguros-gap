@@ -5,9 +5,7 @@ import { environment } from "src/environments/environment";
 import { PolizaViewModel } from 'src/app/shared/interfaces/poliza-view-model.model';
 import { Poliza } from 'src/app/shared/interfaces/poliza.model';
 
-@Injectable({
-  providedIn: "root"
-})
+@Injectable()
 export class AdministracionPolizaService {
   constructor(private _httpClient: HttpClient) {}
 

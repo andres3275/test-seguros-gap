@@ -1,124 +1,150 @@
-<mat-form-field *ngIf="tableConfiguration.filtro">
-  <input
-    matInput
-    (keyup)="applyFilter($event.target.value)"
-    placeholder="Buscar"
-  />
-</mat-form-field>
-<div>
-  <div class="table-responsive">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="mat-elevation-z8 table-striped table-sm"
-      matSort
-    >
-      <ng-container matColumnDef="Seleccion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Selección</th>
-        <td mat-cell *matCellDef="let element">
-          <input type="checkbox" (click)="onRegistroSeleccionado(element)" />
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Nombre">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-        <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Descripcion">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Concepto</th>
-        <td mat-cell *matCellDef="let element">{{ element.descripcion }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="TipoCubrimiento">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+<form *ngIf="this.filteredData && this.data">
+  <div class="form-group form-inline">
+    Full text search:
+    <input
+      class="form-control ml-2"
+      type="text"
+      name="searchTerm"
+      [(ngModel)]="this.searchTerm"
+    />
+  </div>
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <th scope="col">Selección</th>
+        <th scope="col" appSortable="nombre" (sort)="onSort($event)">Nombre</th>
+        <th scope="col" appSortable="descripcion" (sort)="onSort($event)">
+          Concepto
+        </th>
+        <th scope="col" appSortable="tipoCubrimiento" (sort)="onSort($event)">
           Tipo Cubrimiento
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.tipoCubrimiento }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Cobertura">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cobertura</th>
-        <td mat-cell *matCellDef="let element">{{ element.cobertura }}%</td>
-      </ng-container>
-
-      <ng-container matColumnDef="TipoRiesgo">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Riesgo</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.tipoRiesgo }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="FechaInicioVigencia">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.fechaInicioVigencia | date: "yyyy-MM-dd" }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="DuracionMesesCobertura">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        <th scope="col" appSortable="cobertura" (sort)="onSort($event)">
+          Cobertura
+        </th>
+        <th scope="col" appSortable="tipoRiesgo" (sort)="onSort($event)">
+          Tipo Riesgo
+        </th>
+        <th scope="col" appSortable="fechaInicioVigencia" (sort)="onSort($event)">
+          Fecha Inicio
+        </th>
+        <th
+          scope="col"
+          appSortable="duracionMesesCobertura"
+          (sort)="onSort($event)"
+        >
           Duración Meses
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.duracionMesesCobertura }}
+        <th scope="col" appSortable="precio" (sort)="onSort($event)">Precio</th>
+        <th scope="col" appSortable="estadoPoliza" (sort)="onSort($event)">
+          Estado
+        </th>
+        <th scope="col" appSortable="cliente" (sort)="onSort($event)">Cliente</th>
+        <th scope="col">Operaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let poliza of this.filteredData">
+        <td>
+          <input type="checkbox" (click)="onRegistroSeleccionado(poliza)" />
         </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Precio">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.precio }}
+        <td>
+          <ngb-highlight
+            [result]="poliza.nombre"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
         </td>
-      </ng-container>
-
-      <ng-container matColumnDef="EstadoPoliza">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.estadoPoliza }}
+        <td>
+          <ngb-highlight
+            [result]="poliza.descripcion"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
         </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Cliente">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.cliente }}
+        <td>
+          <ngb-highlight
+            [result]="poliza.tipoCubrimiento"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
         </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Operaciones">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Operaciones</th>
-        <td mat-cell *matCellDef="let element">
+        <td>
+          <ngb-highlight
+            [result]="poliza.cobertura"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.tipoRiesgo"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.fechaInicioVigencia | date: 'yyyy-MM-dd'"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.duracionMesesCobertura"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.precio"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.estadoPoliza"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
+          <ngb-highlight
+            [result]="poliza.cliente"
+            [term]="this.searchTerm"
+          ></ngb-highlight>
+        </td>
+        <td>
           <i
-            (click)="onEditarPoliza(element)"
+            (click)="onEditarPoliza(poliza)"
             class="fa fa-pencil-square fa-2x"
             aria-hidden="true"
             placement="top"
           ></i
           >&nbsp;
           <i
-            (click)="onEliminarPoliza(element)"
+            (click)="onEliminarPoliza(poliza)"
             class="fa fa-trash fa-2x"
             aria-hidden="true"
             placement="top"
           ></i
           >&nbsp;
         </td>
-      </ng-container>
+      </tr>
+    </tbody>
+  </table>
 
-      <tr
-        mat-header-row
-        *matHeaderRowDef="tableConfiguration.displayedColumns"
-      ></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: tableConfiguration.displayedColumns"
-      ></tr>
-    </table>
+  <div class="d-flex justify-content-between p-2">
+    <ngb-pagination
+      [collectionSize]="this.total"
+      [(page)]="this.page"
+      [pageSize]="this.pageSize"
+    >
+    </ngb-pagination>
+
+    <select
+      class="custom-select"
+      style="width: auto"
+      name="pageSize"
+      [(ngModel)]="this.pageSize"
+    >
+      <option [ngValue]="2">2 items per page</option>
+      <option [ngValue]="4">4 items per page</option>
+      <option [ngValue]="6">6 items per page</option>
+    </select>
   </div>
-  <mat-paginator
-    [pageSizeOptions]="tableConfiguration.pageSizeOptions"
-  ></mat-paginator>
-</div>
+</form>
