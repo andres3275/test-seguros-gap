@@ -1,22 +1,17 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Poliza } from 'src/app/shared/interfaces/poliza.model';
-import { TipoRiesgo } from 'src/app/shared/interfaces/tipo-riesgo.model';
-import { TipoCubrimiento } from 'src/app/shared/interfaces/tipo-cubrimiento.model';
-import { Usuario } from 'src/app/shared/interfaces/usuario.model';
-import {
-  LimitesPorcentajesCobertura,
-  LimitesDuracionCobertura,
-  LimitesPrecioPoliza
-} from 'src/app/shared/constants/valores-limites';
-import * as moment from 'moment';
-import Swal from 'sweetalert2';
-import { EstadoPoliza } from 'src/app/shared/interfaces/estado-poliza.model';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Poliza } from "src/app/shared/interfaces/poliza.model";
+import { TipoRiesgo } from "src/app/shared/interfaces/tipo-riesgo.model";
+import { TipoCubrimiento } from "src/app/shared/interfaces/tipo-cubrimiento.model";
+import { Usuario } from "src/app/shared/interfaces/usuario.model";
+import * as moment from "moment";
+import Swal from "sweetalert2";
+import { EstadoPoliza } from "src/app/shared/interfaces/estado-poliza.model";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-crud-poliza',
-  templateUrl: './crud-poliza.component.html',
-  styleUrls: ['./crud-poliza.component.css']
+  selector: "app-crud-poliza",
+  templateUrl: "./crud-poliza.component.html",
+  styleUrls: ["./crud-poliza.component.css"]
 })
 export class CrudPolizaComponent implements OnInit {
   private _poliza: Poliza;
@@ -59,7 +54,8 @@ export class CrudPolizaComponent implements OnInit {
       const poliza = {
         cobertura: this.polizaForm.controls.cobertura.value,
         descripcion: this.polizaForm.controls.descripcionPoliza.value,
-        duracionMesesCobertura: this.polizaForm.controls.duracionMesesCobertura.value,
+        duracionMesesCobertura: this.polizaForm.controls.duracionMesesCobertura
+          .value,
         tipoRiesgoId: this.polizaForm.controls.tipoRiesgo.value,
         estadoPolizaId: this.polizaForm.controls.estadoPoliza.value,
         fechaInicioVigencia: fechaInicioVigencia.inputDate,
@@ -71,7 +67,7 @@ export class CrudPolizaComponent implements OnInit {
       };
       this.guardarPolizaEmmiter.emit(poliza);
     } else {
-      Swal.fire('Advertencia', mensajeError, 'warning');
+      Swal.fire("Advertencia", mensajeError, "warning");
     }
   }
 
@@ -94,7 +90,7 @@ export class CrudPolizaComponent implements OnInit {
 
   private aplicarFormatoFecha(fecha: string): string {
     return moment(fecha)
-      .format('YYYY-MM-DD')
+      .format("YYYY-MM-DD")
       .toString();
   }
 
@@ -102,8 +98,8 @@ export class CrudPolizaComponent implements OnInit {
     const mensajeError =
       !fechaInicioVigencia ||
       !fechaInicioVigencia.inputDate ||
-      fechaInicioVigencia.inputDate === ''
-        ? 'Debe seleccionar una fecha de inicio de vigencia.'
+      fechaInicioVigencia.inputDate === ""
+        ? "Debe seleccionar una fecha de inicio de vigencia."
         : undefined;
     return mensajeError;
   }
@@ -127,23 +123,23 @@ export class CrudPolizaComponent implements OnInit {
       usuarioId: undefined
     };
     this.polizaForm = this._formBuilder.group({
-      nombrePoliza: ['', [Validators.required, Validators.maxLength(40)]],
-      descripcionPoliza: ['', Validators.maxLength(140)],
+      nombrePoliza: ["", [Validators.required, Validators.maxLength(40)]],
+      descripcionPoliza: ["", Validators.maxLength(140)],
       cobertura: [
-        '',
+        "",
         [Validators.required, Validators.max(100), Validators.min(0)]
       ],
       duracionMesesCobertura: [
-        '',
+        "",
         [Validators.required, Validators.max(10000), Validators.min(1)]
       ],
-      tipoRiesgo: ['', Validators.required],
-      tipoCubrimiento: ['', Validators.required],
+      tipoRiesgo: ["", Validators.required],
+      tipoCubrimiento: ["", Validators.required],
       precioPoliza: [
-        '',
+        "",
         [Validators.required, Validators.max(999999), Validators.min(0)]
       ],
-      estadoPoliza: ['', Validators.required]
+      estadoPoliza: ["", Validators.required]
     });
   }
 }
